@@ -1,4 +1,3 @@
-// src/components/Header.jsx
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
@@ -28,24 +27,141 @@ const Header = () => {
 
   return (
     <header className="site-header">
+      {/* Embedded styles for the 3D nebula-butterfly logo */}
+      <style>{`
+        .site-header { position: sticky; top: 0; z-index: 60; backdrop-filter: blur(6px); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 12px 20px; }
+        .nav { display: flex; align-items: center; justify-content: space-between; }
+        .nav-links { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+        .nav-link { color: var(--muted); text-decoration: none; font-weight: 600; padding: 6px 8px; border-radius: 6px; }
+        .nav-link.active { color: var(--primary); box-shadow: 0 4px 18px rgba(122,162,255,0.12); }
+
+        /* Nebula-Butterfly 3D Logo */
+        .nebula-wrap { display: flex; align-items: center; gap: 15px; }
+        .nebula-logo { width: 56px; height: 56px; position: relative; perspective: 900px; }
+        /* the 3D card that rotates/tilts */
+        .nebula-card {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          transform-style: preserve-3d;
+          position: relative;
+          box-shadow: 0 8px 28px rgba(8,10,20,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+
+        /* layered nebula background (multiple radial gradients for depth) */
+        .nebula-bg {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          transform: translateZ(-30px) scale(1.06);
+          background:
+            radial-gradient(40% 40% at 20% 25%, rgba(122,162,255,0.28) 0%, transparent 18%),
+            radial-gradient(50% 50% at 75% 30%, rgba(255,209,102,0.18) 0%, transparent 20%),
+            radial-gradient(60% 50% at 50% 70%, rgba(138,43,226,0.2) 0%, transparent 22%),
+            radial-gradient(20% 20% at 30% 50%, rgba(255,255,255,0.04) 0%, transparent 6%);
+          filter: blur(6px) saturate(120%);
+        }
+
+        /* subtle swirling layer to simulate gaseous motion */
+        .nebula-swirl {
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          transform: translateZ(-18px) scale(1.02);
+          background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.04), transparent 20%);
+          mix-blend-mode: screen;
+          opacity: 0.9;
+          animation: swirl 8s linear infinite;
+        }
+
+        @keyframes swirl {
+          from { transform: rotate(0deg) translateZ(-18px) scale(1.02); }
+          to { transform: rotate(360deg) translateZ(-18px) scale(1.02); }
+        }
+
+        /* butterfly (frontmost, appears as if embedded in nebula cloud) */
+        .butterfly {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: translateZ(12px) scale(1.02);
+          z-index: 4;
+          font-size: 22px;
+          filter: drop-shadow(0 8px 18px rgba(122,162,255,0.22)) drop-shadow(0 0 18px rgba(255,209,102,0.14));
+        }
+
+        /* small particle field to create depth (different z layers) */
+        .particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.85); opacity: 0.9; }
+        .p1{ left: 10%; top: 18%; transform: translateZ(-22px) scale(0.7); }
+        .p2{ left: 78%; top: 14%; transform: translateZ(-6px) scale(1.1); }
+        .p3{ left: 60%; top: 72%; transform: translateZ(-12px) scale(0.9); }
+        .p4{ left: 30%; top: 76%; transform: translateZ(-2px) scale(1.0); }
+        .p5{ left: 44%; top: 42%; transform: translateZ(-28px) scale(0.6); }
+
+        /* subtle glow ring */
+        .glow-ring { position: absolute; inset: -6px; border-radius: 50%; z-index: 1; pointer-events: none; background: radial-gradient(circle, rgba(122,162,255,0.08) 0%, transparent 40%); }
+
+        /* 3D tilt interaction is gentle by default; also add a slow breathe rotation */
+        .nebula-card.animate-rotate { animation: slowRotate 12s linear infinite; }
+        @keyframes slowRotate { from { transform: rotateY(0deg) rotateX(0deg); } to { transform: rotateY(360deg) rotateX(0deg); } }
+
+        /* text/name styling */
+        .brand-name { font-size: 20px; font-weight: 700; color: var(--primary); font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* make header responsive */
+        @media (max-width: 640px) { .nebula-logo { width: 44px; height: 44px; } .brand-name { font-size: 16px; } }
+      `}</style>
+
       <div className="container">
         <nav className="nav">
           <motion.div
-            className="brand moon-glow"
-            initial={{ opacity: 0, x: -50 }}
+            className="nebula-wrap"
+            initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Portfolio
+            {/* 3D nebula + butterfly logo */}
+            <div className="nebula-logo" aria-hidden>
+              <motion.div
+                className={`nebula-card animate-rotate`}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '50%',
+                }}
+                // small gentle hover tilt to give 3D feeling but nothing drastic
+                whileHover={{ rotateY: 6, rotateX: -4, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 90, damping: 12 }}
+              >
+                <div className="nebula-bg" />
+                <div className="nebula-swirl" />
+
+                {/* particles at different depths */}
+                <div className="particle p1" style={{ background: 'rgba(122,162,255,0.85)' }} />
+                <div className="particle p2" style={{ background: 'rgba(255,209,102,0.9)' }} />
+                <div className="particle p3" style={{ background: 'rgba(138,43,226,0.85)' }} />
+                <div className="particle p4" style={{ background: 'rgba(255,255,255,0.85)' }} />
+                <div className="particle p5" style={{ background: 'rgba(180,200,255,0.7)' }} />
+
+                <div className="glow-ring" />
+
+                {/* front butterfly, appears as if inside the nebula cloud */}
+                <div className="butterfly">🦋</div>
+              </motion.div>
+            </div>
+
+            <motion.span className="brand-name" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}>
+              Pooja
+            </motion.span>
           </motion.div>
+
           <ul className="nav-links">
             {['about', 'experience', 'projects', 'education', 'skills', 'contact-us'].map((item) => (
-              <motion.li
-                key={item}
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-              >
+              <motion.li key={item} initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
                 <a
                   href={`#${item}`}
                   className={`nav-link ${active === item ? 'active' : ''}`}
