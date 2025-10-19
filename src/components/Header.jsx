@@ -5,7 +5,7 @@ const Header = () => {
   const [active, setActive] = useState('about');
 
   useEffect(() => {
-    const sectionIds = ['about', 'experience', 'projects', 'education', 'skills', 'contact-us'];
+    const sectionIds = ['about', 'experience', 'projects',  'skills', 'contact-us'];
     const observers = sectionIds.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -126,7 +126,7 @@ const Header = () => {
             {/* 3D nebula + butterfly logo */}
             <div className="nebula-logo" aria-hidden>
               <motion.div
-                className={`nebula-card animate-rotate`}
+                
                 style={{
                   display: 'block',
                   width: '100%',
@@ -137,30 +137,25 @@ const Header = () => {
                 whileHover={{ rotateY: 6, rotateX: -4, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 90, damping: 12 }}
               >
-                <div className="nebula-bg" />
-                <div className="nebula-swirl" />
+                
 
                 {/* particles at different depths */}
-                <div className="particle p1" style={{ background: 'rgba(122,162,255,0.85)' }} />
-                <div className="particle p2" style={{ background: 'rgba(255,209,102,0.9)' }} />
-                <div className="particle p3" style={{ background: 'rgba(138,43,226,0.85)' }} />
-                <div className="particle p4" style={{ background: 'rgba(255,255,255,0.85)' }} />
-                <div className="particle p5" style={{ background: 'rgba(180,200,255,0.7)' }} />
+               
 
                 <div className="glow-ring" />
 
                 {/* front butterfly, appears as if inside the nebula cloud */}
-                <div className="butterfly">🦋</div>
+                <div className="butterfly">🌖</div>
               </motion.div>
             </div>
 
             <motion.span className="brand-name" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}>
-              Pooja
+             Pooja
             </motion.span>
           </motion.div>
 
           <ul className="nav-links">
-            {['about', 'experience', 'projects', 'education', 'skills', 'contact-us'].map((item) => (
+            {['about', 'experience', 'projects',  'skills', 'contact-us'].map((item) => (
               <motion.li key={item} initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
                 <a
                   href={`#${item}`}

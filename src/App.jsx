@@ -21,7 +21,7 @@ const App = () => {
     { Component: About, id: 'about' },
     { Component: Experience, id: 'experience' },
     { Component: Projects, id: 'projects' },
-    { Component: Education, id: 'education' },
+    // { Component: Education, id: 'education' },
     { Component: Skills, id: 'skills' },
   ];
 
@@ -154,7 +154,7 @@ const ContactUs = () => {
         />
         <motion.button 
           className="btn" 
-          style={{ width: '90%', padding: '16px', fontSize: '18px', fontWeight: '600' }}
+          style={{ width: '90%', padding: '16px', fontSize: '18px', fontWeight: '600', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           initial={{ opacity: 0, y: 30, scale: 0.8 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.8, type: "spring", stiffness: 150 }}
